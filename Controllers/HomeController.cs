@@ -63,5 +63,27 @@ namespace BestLibraryManagement.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult ReturnBook()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ReturnBook(BorrowBookViewModel borrowBookViewModel)
+        {
+             var book = new Books
+            {
+                Title = borrowBookViewModel.Title,
+                AuthorName = borrowBookViewModel.Author,
+                LibraryBranchName = borrowBookViewModel.LibraryBranchName,
+                CustomerName = borrowBookViewModel.CustomerName,
+                ReturnedAt = DateTime.Now
+            };
+            _dbContext.Books.Add(book);
+            _dbContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
