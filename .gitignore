@@ -1,0 +1,30 @@
+# .NET Core build folders
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
+
+# IDE files
+.vscode/
+.idea/
+
+# macOS system files
+.DS_Store
+
+# Environment files
+*.env
+appsettings.Development.json
+
+# Logs
+logs/
+*.log 

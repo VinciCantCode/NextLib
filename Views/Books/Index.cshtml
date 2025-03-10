@@ -1,0 +1,27 @@
+@model List<BestLibraryManagement.Models.Books>
+
+<h2>Books</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th> 
+            <th>Customer Name</th>
+            <th>Library Branch Name</th>
+            <th>Borrowed At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.AuthorName</td>
+                <td>@book.CustomerName</td>
+                <td>@book.LibraryBranchName</td>
+                <td>@book.BorrowedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+        }
+    </tbody>
+</table>
