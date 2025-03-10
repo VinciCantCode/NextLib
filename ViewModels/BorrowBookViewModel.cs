@@ -7,6 +7,7 @@ namespace BestLibraryManagement.ViewModels
         public string? Author { get; set; }
         // public string? LibraryBranchName { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime ReturnedAt { get; set; }
         
         // Customer properties
         public required string CustomerName { get; set; }

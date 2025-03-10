@@ -11,6 +11,7 @@ namespace BestLibraryManagement.Models
         public string? AuthorName { get; set; }
         public string? LibraryBranchName { get; set; }
         public DateTime BorrowedAt { get; set; }
+        public DateTime ReturnedAt { get; set; }
         public string? CustomerName { get; set; }
     }
 } 
