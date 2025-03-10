@@ -49,4 +49,4 @@ The application will be available at `https://localhost:5001` or `http://localho
 - `Views/`: MVC views
 - `Data/`: Database context and configurations
 - `ViewModels/`: View-specific models
-- `wwwroot/`: Static files (CSS, JavaScript, etc.) 
+- `wwwroot/`: Static files (CSS, JavaScript, etc.)
