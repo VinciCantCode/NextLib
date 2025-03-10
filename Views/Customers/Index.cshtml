@@ -9,7 +9,18 @@
             <th>Email</th>
             <th>Phone</th>
         </tr>
-    </thead>    
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <td>@customer.CustomerName</td>
+                <td>@customer.Email</td>
+                <td>@customer.PhoneNumber</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 
 

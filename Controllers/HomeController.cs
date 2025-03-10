@@ -41,14 +41,18 @@ namespace BestLibraryManagement.Controllers
             _dbContext.Books.Add(book);
             _dbContext.SaveChanges();
 
-            var customer = new Customers
+            var existingCustomer = _dbContext.Customers.Find(borrowBookViewModel.CustomerName);
+            if (existingCustomer == null)
             {
-                CustomerName = borrowBookViewModel.CustomerName,
-                Email = borrowBookViewModel.Email,
-                PhoneNumber = borrowBookViewModel.PhoneNumber
-            };
-            _dbContext.Customers.Add(customer);
-            _dbContext.SaveChanges();
+                var customer = new Customers
+                {
+                    CustomerName = borrowBookViewModel.CustomerName,
+                    Email = borrowBookViewModel.Email,
+                    PhoneNumber = borrowBookViewModel.PhoneNumber
+                };
+                _dbContext.Customers.Add(customer);
+                _dbContext.SaveChanges();
+            }
 
             var libraryBranch = new LibraryBranches
             {
