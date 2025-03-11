@@ -62,7 +62,7 @@ namespace BestLibraryManagement.Controllers
             _dbContext.LibraryBranches.Add(libraryBranch);
             _dbContext.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Books");
         }
 
         [HttpGet]
@@ -84,7 +84,7 @@ namespace BestLibraryManagement.Controllers
             };
             _dbContext.Books.Add(book);
             _dbContext.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Books");      
         }
 
         [HttpGet]
