@@ -21,17 +21,21 @@ A web-based library management system built with ASP.NET Core MVC that helps lib
 
 1. Clone the repository
 ```bash
-git clone [your-repository-url]
+git clone https://github.com/VinciCantCode/BestLibraryManagement.git 
 cd BestLibraryManagement
 ```
 
-2. Install dependencies
+2. Install required packages
 ```bash
-dotnet restore
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.SQLite  
+
 ```
 
 3. Update database
 ```bash
+dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
