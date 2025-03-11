@@ -8,6 +8,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -17,6 +18,13 @@
                 <td>@customer.CustomerName</td>
                 <td>@customer.Email</td>
                 <td>@customer.PhoneNumber</td>
+                <td>
+                    <form asp-controller="Customers" asp-action="DeleteCustomer" method="post" style="display: inline;">
+                        <input type="hidden" name="name" value="@customer.CustomerName" />
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this customer?')">
+                            Delete
+                        </button>
+                    </form>
             </tr>
         }
     </tbody>

@@ -20,5 +20,17 @@ namespace BestLibraryManagement.Controllers
             var customers = _dbContext.Customers.ToList();
             return View(customers);
         }
+
+        [HttpPost]
+        public IActionResult DeleteCustomer(string name)
+        {
+            var customer = _dbContext.Customers.FirstOrDefault(c => c.CustomerName == name);
+            if (customer != null)
+            {
+                _dbContext.Customers.Remove(customer);
+                _dbContext.SaveChanges();
+            }
+            return RedirectToAction("Index", "Customers");
+        }
     }
 }
