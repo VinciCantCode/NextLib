@@ -34,23 +34,23 @@ namespace BestLibraryManagement.Controllers
             }
 
             var allAuthors = _dbContext.Books
-                .Select(b => b.AuthorName)
+                .Select(b => b.AuthorName!)
                 .Distinct()
                 .ToList();
-            
+
             var index = allAuthors.IndexOf(author);
 
             var viewModel = new ViewAuthorViewModel
             {
-               Books = books,
-               Authors = allAuthors,
-               SelectedAuthor = author,
-               PreviousAuthor = index > 0 ? allAuthors[index - 1] : null,
-               NextAuthor = index < allAuthors.Count - 1 ? allAuthors[index + 1] : null,
-               HasPrevious = index > 0,
-               HasNext = index < allAuthors.Count - 1
+                Books = books,
+                Authors = allAuthors,
+                SelectedAuthor = author,
+                PreviousAuthor = index > 0 ? allAuthors[index - 1] : null,
+                NextAuthor = index < allAuthors.Count - 1 ? allAuthors[index + 1] : null,
+                HasPrevious = index > 0,
+                HasNext = index < allAuthors.Count - 1
             };
             return View(viewModel);
         }
     }
-} 
+}

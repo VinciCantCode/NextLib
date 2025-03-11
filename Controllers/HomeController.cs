@@ -58,7 +58,7 @@ namespace BestLibraryManagement.Controllers
 
             var author = new Authors
             {
-                AuthorName = borrowBookViewModel.Author
+                AuthorName = borrowBookViewModel.Author!
             };
             _dbContext.Authors.Add(author);
             _dbContext.SaveChanges();
