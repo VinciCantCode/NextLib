@@ -32,19 +32,23 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.EntityFrameworkCore.SQLite  
 
 ```
-
-3. Update database
+3. Setting Up Entity Framework Core Tools and Creating Initial Migration
 ```bash
+dotnet tool install --global dotnet-ef
 dotnet ef migrations add InitialCreate
+```
+
+4. Update database
+```bash
 dotnet ef database update
 ```
 
-4. Run the application
+5. Run the application
 ```bash
 dotnet run
 ```
 
-The application will be available at `https://localhost:5001` or `http://localhost:5000`
+The application will be available at `https://localhost:5252`
 
 ## Project Structure
 
