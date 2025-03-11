@@ -11,6 +11,7 @@
             <th>Library Branch Name</th>
             <th>Borrowed At</th>
             <th>Returned At</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,14 @@
                 <td>@book.LibraryBranchName</td>
                 <td>@(book.BorrowedAt.ToString("yyyy-MM-dd HH:mm:ss"))</td>
                 <td>@(book.ReturnedAt == DateTime.MinValue ? "Not returned yet" : book.ReturnedAt.ToString("yyyy-MM-dd HH:mm:ss"))</td>
+                <td>
+                    <form asp-controller="Books" asp-action="DeleteBook" method="post" style="display: inline;">
+                        <input type="hidden" name="title" value="@book.Title" />
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this book?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
