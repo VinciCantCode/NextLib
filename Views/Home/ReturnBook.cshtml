@@ -2,6 +2,13 @@
 
 <h2>Return Book</h2>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <form asp-action="ReturnBook" method="post">
     <div class="form-group">
         <label asp-for="Title">Title</label>

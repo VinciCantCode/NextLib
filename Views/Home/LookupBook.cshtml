@@ -35,7 +35,7 @@
                     <td>@book.LibraryBranchName</td>
                     <td>@book.CustomerName</td>
                     <td>@book.BorrowedAt?.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td>@book.ReturnedAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@(book.ReturnedAt == DateTime.MinValue ? "Not returned yet" : book.ReturnedAt.ToString("yyyy-MM-dd HH:mm:ss"))</td>
                 </tr>
             }
         </tbody>

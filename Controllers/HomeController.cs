@@ -31,16 +31,21 @@ namespace BestLibraryManagement.Controllers
         [HttpPost]
         public IActionResult BorrowBook(BorrowBookViewModel borrowBookViewModel)
         {
-            var book = new Books
+            var existingBook = _dbContext.Books.Find(borrowBookViewModel.Title);
+            if (existingBook == null)
             {
-                Title = borrowBookViewModel.Title,
-                AuthorName = borrowBookViewModel.Author,
-                LibraryBranchName = borrowBookViewModel.LibraryBranchName,
-                CustomerName = borrowBookViewModel.CustomerName,
-                BorrowedAt = DateTime.Now
-            };
-            _dbContext.Books.Add(book);
-            _dbContext.SaveChanges();
+                var book = new Books
+                {
+                    Title = borrowBookViewModel.Title,
+                    AuthorName = borrowBookViewModel.Author,
+                    LibraryBranchName = borrowBookViewModel.LibraryBranchName,
+                    CustomerName = borrowBookViewModel.CustomerName,
+                    BorrowedAt = DateTime.Now
+                };
+
+                _dbContext.Books.Add(book);
+                _dbContext.SaveChanges();
+            }
 
             var existingCustomer = _dbContext.Customers.Find(borrowBookViewModel.CustomerName);
             if (existingCustomer == null)
@@ -55,21 +60,27 @@ namespace BestLibraryManagement.Controllers
                 _dbContext.SaveChanges();
             }
 
-
-            var author = new Authors
+            var existingAuthor = _dbContext.Authors.Find(borrowBookViewModel.Author);
+            if (existingAuthor == null)
             {
-                AuthorName = borrowBookViewModel.Author!
-            };
-            _dbContext.Authors.Add(author);
-            _dbContext.SaveChanges();
+                var author = new Authors
+                {
+                    AuthorName = borrowBookViewModel.Author!
+                };
+                _dbContext.Authors.Add(author);
+                _dbContext.SaveChanges();
+            }
 
-
-            var libraryBranch = new LibraryBranches
+            var existingLibraryBranch = _dbContext.LibraryBranches.Find(borrowBookViewModel.LibraryBranchName);
+            if (existingLibraryBranch == null)
             {
-                LibraryBranchName = borrowBookViewModel.LibraryBranchName,
-            };
-            _dbContext.LibraryBranches.Add(libraryBranch);
-            _dbContext.SaveChanges();
+                var libraryBranch = new LibraryBranches
+                {
+                    LibraryBranchName = borrowBookViewModel.LibraryBranchName,
+                };
+                _dbContext.LibraryBranches.Add(libraryBranch);
+                _dbContext.SaveChanges();
+            }
 
             return RedirectToAction("Index", "Books");
         }
@@ -83,16 +94,19 @@ namespace BestLibraryManagement.Controllers
         [HttpPost]
         public IActionResult ReturnBook(BorrowBookViewModel borrowBookViewModel)
         {
-            var book = new Books
+            var existingBook = _dbContext.Books
+                .FirstOrDefault(b => b.Title == borrowBookViewModel.Title &&
+                                    b.ReturnedAt == DateTime.MinValue);
+
+            if (existingBook == null)
             {
-                Title = borrowBookViewModel.Title,
-                AuthorName = borrowBookViewModel.Author,
-                LibraryBranchName = borrowBookViewModel.LibraryBranchName,
-                CustomerName = borrowBookViewModel.CustomerName,
-                ReturnedAt = DateTime.Now
-            };
-            _dbContext.Books.Add(book);
+                TempData["ErrorMessage"] = "This book has not been borrowed or has already been returned.";
+                return View(borrowBookViewModel);
+            }
+
+            existingBook.ReturnedAt = DateTime.Now;
             _dbContext.SaveChanges();
+
             return RedirectToAction("Index", "Books");
         }
 
