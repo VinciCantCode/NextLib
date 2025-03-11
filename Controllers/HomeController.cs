@@ -55,6 +55,15 @@ namespace BestLibraryManagement.Controllers
                 _dbContext.SaveChanges();
             }
 
+
+            var author = new Authors
+            {
+                AuthorName = borrowBookViewModel.Author
+            };
+            _dbContext.Authors.Add(author);
+            _dbContext.SaveChanges();
+
+
             var libraryBranch = new LibraryBranches
             {
                 LibraryBranchName = borrowBookViewModel.LibraryBranchName,
@@ -74,7 +83,7 @@ namespace BestLibraryManagement.Controllers
         [HttpPost]
         public IActionResult ReturnBook(BorrowBookViewModel borrowBookViewModel)
         {
-             var book = new Books
+            var book = new Books
             {
                 Title = borrowBookViewModel.Title,
                 AuthorName = borrowBookViewModel.Author,
@@ -84,7 +93,7 @@ namespace BestLibraryManagement.Controllers
             };
             _dbContext.Books.Add(book);
             _dbContext.SaveChanges();
-            return RedirectToAction("Index", "Books");      
+            return RedirectToAction("Index", "Books");
         }
 
         [HttpGet]
@@ -99,7 +108,7 @@ namespace BestLibraryManagement.Controllers
             var books = _dbContext.Books
                 .Where(b => b.Title.Contains(borrowBookViewModel.Title))
                 .ToList();
-            
+
             ViewBag.SearchResults = books;
             return View(borrowBookViewModel);
         }
