@@ -6,6 +6,7 @@
     <thead>
         <tr>
             <th>Author Name</th>
+            <th>View</th>
         </tr>
     </thead>
     <tbody>
@@ -13,6 +14,7 @@
         {
             <tr>
                 <td>@author</td>
+                <td><a href="@Url.Action("ViewAuthor", "Authors", new { author = author })">View</a></td>
             </tr>
         }
     </tbody>

@@ -4,6 +4,7 @@ using BestLibraryManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using BestLibraryManagement.Data;
+using System.Linq;
 
 namespace BestLibraryManagement.Controllers
 {
@@ -84,6 +85,23 @@ namespace BestLibraryManagement.Controllers
             _dbContext.Books.Add(book);
             _dbContext.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult LookupBook()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult LookupBook(BorrowBookViewModel borrowBookViewModel)
+        {
+            var books = _dbContext.Books
+                .Where(b => b.Title.Contains(borrowBookViewModel.Title))
+                .ToList();
+            
+            ViewBag.SearchResults = books;
+            return View(borrowBookViewModel);
         }
     }
 }

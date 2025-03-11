@@ -1,0 +1,42 @@
+@model BestLibraryManagement.ViewModels.ViewAuthorViewModel
+
+<div class="row">
+    <div class="col-md-3">
+        <h4>Authors</h4>
+        <ul class="list-group">
+            @foreach (var author in Model.Authors)
+            {
+                <li class="list-group-item @(author == Model.SelectedAuthor ? "active" : "")">
+                    <a href="@Url.Action("ViewAuthor", "Authors", new { author })"
+                        class="@(author == Model.SelectedAuthor ? "text-white" : "")">@author</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-md-9">
+        @if (Model.SelectedAuthor != null)
+        {
+            <h4>@Model.SelectedAuthor's Books</h4>
+            <ul class="list-group">
+                @foreach (var book in Model.Books)
+                {
+                    <li class="list-group-item">@book.Title</li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12 text-center">
+        @if (Model.HasPrevious)
+        {
+            <a href="@Url.Action("ViewAuthor", "Authors", new { author = Model.PreviousAuthor })"
+                class="btn btn-primary">Previous</a>
+        }
+        @if (Model.HasNext)
+        {
+            <a href="@Url.Action("ViewAuthor", "Authors", new { author = Model.NextAuthor })"
+                class="btn btn-primary">Next</a>
+        }
+    </div>
+</div>
