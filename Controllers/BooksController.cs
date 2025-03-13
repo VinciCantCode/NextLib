@@ -22,12 +22,6 @@ namespace BestLibraryManagement.Controllers
             return View(books);
         }
 
-        [HttpGet]
-        public IActionResult BorrowBook()
-        {
-            return View();
-        }
-
         [HttpPost]
         public IActionResult DeleteBook(string title)
         {

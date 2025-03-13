@@ -31,6 +31,12 @@ namespace BestLibraryManagement.Controllers
         [HttpPost]
         public IActionResult BorrowBook(BorrowBookViewModel borrowBookViewModel)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return View(borrowBookViewModel);
+            }
+
             var existingBook = _dbContext.Books.Find(borrowBookViewModel.Title);
             if (existingBook == null)
             {
