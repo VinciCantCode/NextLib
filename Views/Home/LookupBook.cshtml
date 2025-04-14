@@ -1,0 +1,43 @@
+@model BestLibraryManagement.ViewModels.BorrowBookViewModel
+
+<h2>Lookup Books</h2>
+
+<form asp-action="LookupBook" method="post">
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Lookup</button>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
+</form>
+
+@if (ViewBag.SearchResults != null)
+{
+    <h3>Search Results</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Library Branch</th>
+                <th>Customer</th>
+                <th>Borrowed At</th>
+                <th>Returned At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in ViewBag.SearchResults)
+            {
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.AuthorName</td>
+                    <td>@book.LibraryBranchName</td>
+                    <td>@book.CustomerName</td>
+                    <td>@book.BorrowedAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@(book.ReturnedAt == DateTime.MinValue ? "Not returned yet" : book.ReturnedAt.ToString("yyyy-MM-dd HH:mm:ss"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,34 @@
+# .NET Core build folders
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
+
+# IDE files
+.vscode/
+.idea/
+
+# macOS system files
+.DS_Store
+
+# Environment files and settings
+*.env
+appsettings.Development.json
+appsettings.Production.json
+
+# Google credentials files
+*client_secret*.json
+
+# Logs
+logs/
+*.log 

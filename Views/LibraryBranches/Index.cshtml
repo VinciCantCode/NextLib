@@ -1,0 +1,19 @@
+@model List<string>
+
+<h2>Library Branches</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Library Branch Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var branch in Model)
+        {
+            <tr>
+                <td>@branch</td>
+            </tr>
+        }
+    </tbody>
+</table>

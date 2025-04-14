@@ -1,0 +1,22 @@
+@model List<string>
+
+<h2>Authors List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Author Name</th>
+            <th>View</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author</td>
+                <td><a href="@Url.Action("ViewAuthor", "Authors", new { author = author })">View</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
