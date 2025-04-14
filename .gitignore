@@ -21,9 +21,14 @@ obj/
 # macOS system files
 .DS_Store
 
-# Environment files
+# Environment files and settings
 *.env
+appsettings.json
 appsettings.Development.json
+appsettings.Production.json
+
+# Google credentials files
+*client_secret*.json
 
 # Logs
 logs/
