@@ -100,19 +100,30 @@ namespace BestLibraryManagement.Controllers
         [HttpPost]
         public IActionResult ReturnBook(BorrowBookViewModel borrowBookViewModel)
         {
-            var existingBook = _dbContext.Books
-                .FirstOrDefault(b => b.Title == borrowBookViewModel.Title &&
-                                    b.ReturnedAt == DateTime.MinValue);
-
-            if (existingBook == null)
+            var book = _dbContext.Books
+                .FirstOrDefault(b => b.Title == borrowBookViewModel.Title);
+            
+            if (book == null)
             {
-                TempData["ErrorMessage"] = "This book has not been borrowed or has already been returned.";
+                TempData["ErrorMessage"] = "Book not found.";
                 return View(borrowBookViewModel);
             }
 
-            existingBook.ReturnedAt = DateTime.Now;
-            _dbContext.SaveChanges();
+            if (book.ReturnedAt != DateTime.MinValue)
+            {
+                TempData["ErrorMessage"] = "This book has already been returned.";
+                return View(borrowBookViewModel);
+            }
 
+            if (book.BorrowedAt == DateTime.MinValue)
+            {
+                TempData["ErrorMessage"] = "This book has not been borrowed yet.";
+                return View(borrowBookViewModel);
+            }
+
+            book.ReturnedAt = DateTime.Now;
+            _dbContext.SaveChanges();
+            
             return RedirectToAction("Index", "Books");
         }
 
