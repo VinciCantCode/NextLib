@@ -5,16 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using BestLibraryManagement.Data;
 using System.Linq;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace BestLibraryManagement.Controllers
 {
     public class HomeController : Controller
     {
         private readonly BestLibraryManagementDbContext _dbContext;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(BestLibraryManagementDbContext dbContext)
+        public HomeController(BestLibraryManagementDbContext dbContext, ILogger<HomeController> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -102,7 +106,7 @@ namespace BestLibraryManagement.Controllers
         {
             var book = _dbContext.Books
                 .FirstOrDefault(b => b.Title == borrowBookViewModel.Title);
-            
+
             if (book == null)
             {
                 TempData["ErrorMessage"] = "Book not found.";
@@ -123,7 +127,7 @@ namespace BestLibraryManagement.Controllers
 
             book.ReturnedAt = DateTime.Now;
             _dbContext.SaveChanges();
-            
+
             return RedirectToAction("Index", "Books");
         }
 
@@ -144,6 +148,57 @@ namespace BestLibraryManagement.Controllers
             return View(borrowBookViewModel);
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error(int? statusCode = null)
+        {
+            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            var statusCodeReExecuteFeature = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+
+            var errorViewModel = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                OriginalStatusCode = statusCode ?? 500
+            };
+
+            if (statusCodeReExecuteFeature != null)
+            {
+                var pathBase = statusCodeReExecuteFeature.OriginalPathBase ?? string.Empty;
+                var path = statusCodeReExecuteFeature.OriginalPath ?? string.Empty;
+                var queryString = statusCodeReExecuteFeature.OriginalQueryString ?? string.Empty;
+
+                errorViewModel.OriginalPathAndQuery = $"{pathBase}{path}{queryString}";
+            }
+            else if (exceptionHandlerPathFeature != null)
+            {
+                errorViewModel.OriginalPathAndQuery = exceptionHandlerPathFeature.Path ?? string.Empty;
+            }
+
+            if (exceptionHandlerPathFeature?.Error != null)
+            {
+                errorViewModel.ExceptionMessage = exceptionHandlerPathFeature.Error.Message;
+                _logger.LogError(
+                    exceptionHandlerPathFeature.Error,
+                    "Unhandled exception for request {TraceIdentifier} at path {Path}",
+                    errorViewModel.RequestId,
+                    exceptionHandlerPathFeature.Path);
+            }
+            else if (statusCode.HasValue)
+            {
+                errorViewModel.ExceptionMessage = $"Status code error: {statusCode.Value}";
+                _logger.LogWarning(
+                    "Status code {StatusCode} for request {TraceIdentifier}",
+                    statusCode.Value,
+                    errorViewModel.RequestId);
+            }
+            else
+            {
+                _logger.LogWarning(
+                    "Error page accessed directly without exception for request {TraceIdentifier}",
+                    errorViewModel.RequestId);
+            }
+
+            return View("~/Views/Shared/Error.cshtml", errorViewModel);
+        }
 
     }
 }

@@ -9,6 +9,10 @@
     <a href="@Url.Action("ReturnBook", "Home")" class="btn btn-primary">Return Book</a>
     <a href="@Url.Action("LookupBook", "Home")" class="btn btn-primary">Lookup Book</a>
 </div>
+@* @{
+    throw new Exception("This is a deliberate exception for testing purposes.");
+} *@
 
-
-
+@* @{
+    System.IO.File.OpenRead("non_existent_file.txt");
+} *@

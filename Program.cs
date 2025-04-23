@@ -42,15 +42,19 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Error"); // For unhandled exceptions
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Move UseStatusCodePagesWithReExecute AFTER UseRouting
+// Use the query string format for status code pages
+app.UseStatusCodePagesWithReExecute("?statusCode={0}");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -61,5 +65,4 @@ app.MapControllerRoute(
 
 // Add Razor Pages routes for Identity UI
 app.MapRazorPages();
-
 app.Run();
