@@ -54,7 +54,7 @@ app.UseRouting();
 
 // Move UseStatusCodePagesWithReExecute AFTER UseRouting
 // Use the query string format for status code pages
-app.UseStatusCodePagesWithReExecute("?statusCode={0}");
+app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
 app.UseAuthentication();
 app.UseAuthorization();
