@@ -190,12 +190,6 @@ namespace BestLibraryManagement.Controllers
                     statusCode.Value,
                     errorViewModel.RequestId);
             }
-            else
-            {
-                _logger.LogWarning(
-                    "Error page accessed directly without exception for request {TraceIdentifier}",
-                    errorViewModel.RequestId);
-            }
 
             return View("~/Views/Shared/Error.cshtml", errorViewModel);
         }
