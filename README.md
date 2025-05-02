@@ -1,6 +1,6 @@
 # Best Library Management System
 
-A web-based library management system built with ASP.NET Core MVC that helps libraries manage their books, authors, customers, and library branches.
+A web-based library management system built with ASP.NET Core MVC that helps libraries manage their books, authors, customers, and library branches
 
 ## Features
 
