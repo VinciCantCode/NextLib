@@ -12,14 +12,23 @@ namespace BestLibraryManagement.Data
         public DbSet<Models.Customers> Customers { get; set; }
         public DbSet<Models.LibraryBranches> LibraryBranches { get; set; }
         
-        public BestLibraryManagementDbContext(DbContextOptions<BestLibraryManagementDbContext> options) : base(options)
+        private readonly IConfiguration _configuration;
+        
+        public BestLibraryManagementDbContext(IConfiguration configuration)
         {
+            _configuration = configuration;
+        }
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder); // Must call the base method to configure Identity models
             
+            // You can add other database model configurations here
         }
     }
 }
