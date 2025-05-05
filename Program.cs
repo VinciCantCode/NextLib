@@ -4,13 +4,16 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+
+// using Swashbuckle.AspNetCore.Swagger;
+// using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
 // Add DbContext configuration
 builder.Services.AddDbContext<BestLibraryManagementDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -37,8 +40,10 @@ builder.Services.AddAuthentication()
         facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"]!;
     });
 
-var app = builder.Build();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -47,6 +52,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+if (app.Environment.IsDevelopment())
+{
+    {
+        app.UseSwagger(); 
+        app.UseSwaggerUI();
+    }
+}
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -54,7 +68,7 @@ app.UseRouting();
 
 // Move UseStatusCodePagesWithReExecute AFTER UseRouting
 // Use the query string format for status code pages
-app.UseStatusCodePagesWithReExecute("?statusCode={0}");
+app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
 app.UseAuthentication();
 app.UseAuthorization();
