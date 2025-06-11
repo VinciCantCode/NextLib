@@ -16,4 +16,4 @@ RUN dotnet publish "BestLibraryManagement.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "BestLibraryManagement.dll"] 
+ENTRYPOINT ["sh", "-c", "dotnet ef database update && dotnet BestLibraryManagement.dll"] 
